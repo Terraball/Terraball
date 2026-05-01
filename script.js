@@ -109,7 +109,8 @@ const orderSeedTypes = {
 function updateSeedTypeOptions() {
   if (!seedCategorySelect || !seedTypeSelect) return;
 
-   seedTypeSelect.innerHTML = '<option value="">Select seed type</option>' + options.map((seed) => `<option>${seed}</option>`).join('');
+  const options = orderSeedTypes[seedCategorySelect.value] || orderSeedTypes.Other;
+  seedTypeSelect.innerHTML = '<option value="">Select seed type</option>' + options.map((seed) => `<option>${seed}</option>`).join('');
 }
 
 function updateOtherSeedField() {
@@ -124,12 +125,11 @@ function updateOtherSeedField() {
 }
 
 if (seedCategorySelect && seedTypeSelect) {
-  seedCategorySelect.addEventListener('change', updateOtherSeedField);
   seedCategorySelect.addEventListener('change', () => {
     updateSeedTypeOptions();
     updateOtherSeedField();
   });
- 
+
   seedTypeSelect.addEventListener('change', updateOtherSeedField);
   updateSeedTypeOptions();
   updateOtherSeedField();
