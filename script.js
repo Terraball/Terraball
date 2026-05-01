@@ -109,7 +109,7 @@ const orderSeedTypes = {
 function updateSeedTypeOptions() {
   if (!seedCategorySelect || !seedTypeSelect) return;
 
-  seedTypeSelect.innerHTML = options.map((seed) => `<option>${seed}</option>`).join('');
+   seedTypeSelect.innerHTML = '<option value="">Select seed type</option>' + options.map((seed) => `<option>${seed}</option>`).join('');
 }
 
 function updateOtherSeedField() {
@@ -123,15 +123,14 @@ function updateOtherSeedField() {
   }
 }
 
-if (seedCategorySelect) {
+if (seedCategorySelect && seedTypeSelect) {
   seedCategorySelect.addEventListener('change', updateOtherSeedField);
   seedCategorySelect.addEventListener('change', () => {
     updateSeedTypeOptions();
     updateOtherSeedField();
   });
-  if (seedTypeSelect) {
-    seedTypeSelect.addEventListener('change', updateOtherSeedField);
-  }
+ 
+  seedTypeSelect.addEventListener('change', updateOtherSeedField);
   updateSeedTypeOptions();
   updateOtherSeedField();
 }
