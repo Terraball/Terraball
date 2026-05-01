@@ -94,13 +94,28 @@ updateImpact();
 
 
 const seedCategorySelect = document.querySelector('[data-seed-category]');
+const seedTypeSelect = document.querySelector('[data-seed-type]');
 const otherSeedField = document.querySelector('[data-other-seed-field]');
 const otherSeedInput = otherSeedField ? otherSeedField.querySelector('input') : null;
 
-function updateOtherSeedField() {
-  if (!seedCategorySelect || !otherSeedField || !otherSeedInput) return;
+const orderSeedTypes = {
+  'Vegetable Seeds': ['Tomato', 'Chilli', 'Brinjal', 'Okra', 'Other'],
+  'Flower Seeds': ['Marigold', 'Cosmos', 'Sunflower', 'Zinnia', 'Other'],
+  'Fruit Seeds': ['Custard Apple', 'Papaya', 'Tamarind', 'Amla', 'Other'],
+  'Wild Tree Seeds': ['Banyan', 'Peepal', 'Gulmohar', 'Karanj', 'Other'],
+  Other: ['Other']
+};
 
-  const showOther = seedCategorySelect.value === 'Other';
+function updateSeedTypeOptions() {
+  if (!seedCategorySelect || !seedTypeSelect) return;
+
+  seedTypeSelect.innerHTML = options.map((seed) => `<option>${seed}</option>`).join('');
+}
+
+function updateOtherSeedField() {
+  if (!seedCategorySelect || !seedTypeSelect || !otherSeedField || !otherSeedInput) return;
+
+  const showOther = seedCategorySelect.value === 'Other' || seedTypeSelect.value === 'Other';
   otherSeedField.classList.toggle('visible', showOther);
   otherSeedInput.required = showOther;
   if (!showOther) {
@@ -110,6 +125,14 @@ function updateOtherSeedField() {
 
 if (seedCategorySelect) {
   seedCategorySelect.addEventListener('change', updateOtherSeedField);
+  seedCategorySelect.addEventListener('change', () => {
+    updateSeedTypeOptions();
+    updateOtherSeedField();
+  });
+  if (seedTypeSelect) {
+    seedTypeSelect.addEventListener('change', updateOtherSeedField);
+  }
+  updateSeedTypeOptions();
   updateOtherSeedField();
 }
 
